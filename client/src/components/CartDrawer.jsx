@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useStore } from '../state/StoreContext';
+import { inr } from '../format';
 
 export default function CartDrawer({ open, onClose }) {
   const { cart, setQty, cartTotal, clearCart, user } = useStore();
@@ -35,7 +36,7 @@ export default function CartDrawer({ open, onClose }) {
                 <div className="line-info">
                   <div className="nm">{item.name}</div>
                   <div className="pr">
-                    ${item.price.toFixed(2)} / {item.unit}
+                    {inr(item.price)} / {item.unit}
                   </div>
                 </div>
                 <div className="qty">
@@ -43,7 +44,7 @@ export default function CartDrawer({ open, onClose }) {
                   <span className="n">{item.qty}</span>
                   <button onClick={() => setQty(item.id, item.qty + 1)} aria-label="Increase">+</button>
                 </div>
-                <div className="line-total">${(item.price * item.qty).toFixed(2)}</div>
+                <div className="line-total">{inr(item.price * item.qty)}</div>
               </div>
             ))
           )}
@@ -51,7 +52,7 @@ export default function CartDrawer({ open, onClose }) {
         <div className="drawer-foot">
           <div className="drawer-total">
             <span>Total</span>
-            <b>${cartTotal.toFixed(2)}</b>
+            <b>{inr(cartTotal)}</b>
           </div>
           {cart.length > 0 && (
             <>

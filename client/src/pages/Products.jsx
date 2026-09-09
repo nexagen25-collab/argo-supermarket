@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../state/StoreContext';
+import { inr } from '../format';
 
 export default function Products() {
   const { products, addToCart } = useStore();
@@ -54,7 +55,7 @@ export default function Products() {
               <h3>{p.name}</h3>
               <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.5, margin: '4px 0 0' }}>{p.description}</p>
               <div className="card-foot">
-                <span className="price">${p.price.toFixed(2)} <small>/{p.unit}</small></span>
+                <span className="price">{inr(p.price)} <small>/{p.unit}</small></span>
                 <button className="add-btn" onClick={() => addToCart(p)} disabled={p.stock <= 0}>
                   {p.stock <= 0 ? 'Sold out' : 'Add +'}
                 </button>

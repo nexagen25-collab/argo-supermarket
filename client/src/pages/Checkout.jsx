@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useStore } from '../state/StoreContext';
 import { api } from '../api';
 import { getRoute } from '../App';
+import { inr } from '../format';
 
 const INTENT_KEY = 'argo_checkout_intent';
 
@@ -155,7 +156,7 @@ export default function Checkout() {
             {cart.map((i) => (
               <div className="summary-row muted" key={i.id}>
                 <span>{i.qty}× {i.emoji} {i.name}</span>
-                <span>${(i.price * i.qty).toFixed(2)}</span>
+                <span>{inr(i.price * i.qty)}</span>
               </div>
             ))}
             <div className="summary-row muted">
@@ -164,7 +165,7 @@ export default function Checkout() {
             </div>
             <div className="summary-total">
               <span>Total</span>
-              <b>${cartTotal.toFixed(2)}</b>
+              <b>{inr(cartTotal)}</b>
             </div>
             <p className="shipping-note">
               💡 Stripe works in test mode — use card <code>4242 4242 4242 4242</code>, any future date, any CVC.

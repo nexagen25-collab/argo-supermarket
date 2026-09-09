@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useStore } from '../state/StoreContext';
 import { api } from '../api';
+import { inr } from '../format';
 
 const EMPTY = {
   sku: '',
@@ -132,7 +133,7 @@ export default function Admin() {
               <div className="order-meta">
                 <span>user #{o.userId}</span>
                 <span>{new Date(o.createdAt * 1000).toLocaleString()}</span>
-                <span>${o.total.toFixed(2)}</span>
+                <span>{inr(o.total)}</span>
                 <span>{o.address}</span>
               </div>
               <div className="order-items-list">
@@ -172,7 +173,7 @@ export default function Admin() {
                     <td>{p.sku}</td>
                     <td>{p.emoji} {p.name}</td>
                     <td>{p.category}</td>
-                    <td>${p.price.toFixed(2)}</td>
+                    <td>{inr(p.price)}</td>
                     <td>{p.stock}</td>
                     <td>{p.aisle}-{p.shelf}</td>
                     <td>{p.active ? '✓' : '✗'}</td>

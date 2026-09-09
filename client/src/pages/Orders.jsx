@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useStore } from '../state/StoreContext';
 import { api } from '../api';
 import { getRoute } from '../App';
+import { inr } from '../format';
 
 const STATUS_META = {
   pending: 'Payment received, awaiting dispatch',
@@ -67,7 +68,7 @@ export default function Orders() {
               </div>
               <div className="order-meta">
                 <span>{new Date(o.createdAt * 1000).toLocaleDateString()}</span>
-                <span>${o.total.toFixed(2)}</span>
+                <span>{inr(o.total)}</span>
                 <span>{o.items.length} item(s)</span>
                 {o.paymentId && <span title={o.paymentId}>Payment: {o.paymentId.slice(0, 14)}…</span>}
               </div>

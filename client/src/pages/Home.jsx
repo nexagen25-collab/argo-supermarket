@@ -1,4 +1,5 @@
 import { useStore } from '../state/StoreContext';
+import { inr } from '../format';
 
 export default function Home() {
   const { products } = useStore();
@@ -70,7 +71,7 @@ function ProductCard({ p }) {
         <div className="meta">Aisle {p.aisle} · Shelf {p.shelf}</div>
         <h3>{p.name}</h3>
         <div className="card-foot">
-          <span className="price">${p.price.toFixed(2)} <small>/{p.unit}</small></span>
+          <span className="price">{inr(p.price)} <small>/{p.unit}</small></span>
           <button className="add-btn" onClick={() => addToCart(p)}>Add +</button>
         </div>
       </div>

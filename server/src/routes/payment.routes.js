@@ -29,7 +29,7 @@ router.post('/checkout', requireAuth, async (req, res, next) => {
         total += p.price * it.qty;
         return {
           price_data: {
-            currency: 'usd',
+            currency: 'inr',
             product_data: {
               name: p.name,
               description: `${p.unit} • ${p.category}`

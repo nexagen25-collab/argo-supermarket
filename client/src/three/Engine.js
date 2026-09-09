@@ -55,16 +55,15 @@ export class StoreEngine {
 
   _buildScene() {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0b0e14);
-    this.scene.fog = new THREE.Fog(0x0b0e14, 22, 120);
+    this.scene.background = new THREE.Color(0xf3f1ea);
+    this.scene.fog = new THREE.Fog(0xf3f1ea, 26, 130);
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 200);
     this.camera.position.set(STORE.width * 0.5, 2.2, STORE.depth * 0.9);
     this.yaw = Math.PI; // face into the store
 
-    // three examples helpers not imported — we do a manual sky glow plane
     this.sky = new THREE.Mesh(
       new THREE.PlaneGeometry(STORE.width * 2, STORE.depth * 2),
-      new THREE.MeshBasicMaterial({ color: 0x151a26, fog: false })
+      new THREE.MeshBasicMaterial({ color: 0xbcd9e8, fog: false })
     );
     this.sky.position.set(STORE.width / 2, STORE.height * 4.2, STORE.depth / 2);
     this.sky.rotation.x = Math.PI / 2;
@@ -72,12 +71,12 @@ export class StoreEngine {
   }
 
   _buildStore() {
-    const matWall = new THREE.MeshStandardMaterial({ color: 0x1b2230, roughness: 0.92 });
-    const matCeil = new THREE.MeshStandardMaterial({ color: 0x232b3d, roughness: 0.95 });
+    const matWall = new THREE.MeshStandardMaterial({ color: 0xe9e5da, roughness: 0.92 });
+    const matCeil = new THREE.MeshStandardMaterial({ color: 0xf7f5ee, roughness: 0.95 });
     const matFloor = new THREE.MeshStandardMaterial({
-      color: 0x202839,
+      color: 0xd9c9a7,
       roughness: 0.86,
-      metalness: 0.06
+      metalness: 0.04
     });
 
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(STORE.width, STORE.depth), matFloor);
@@ -112,7 +111,7 @@ export class StoreEngine {
     this.scene.add(east);
 
     // Aisle "parking" lines on the floor
-    const lineMat = new THREE.MeshBasicMaterial({ color: 0x39445c });
+    const lineMat = new THREE.MeshBasicMaterial({ color: 0xfaf7f0 });
     for (let a = 1; a <= 8; a++) {
       const z = zOfAisle(a);
       const lane = new THREE.Mesh(new THREE.PlaneGeometry(STORE.width - 2, 0.14), lineMat);
@@ -122,10 +121,10 @@ export class StoreEngine {
     }
 
     // checkout counter near the front (south)
-    const counter = new THREE.Mesh(new THREE.BoxGeometry(14, 1.1, 2.2), new THREE.MeshStandardMaterial({ color: 0x2c3550, roughness: 0.7 }));
+    const counter = new THREE.Mesh(new THREE.BoxGeometry(14, 1.1, 2.2), new THREE.MeshStandardMaterial({ color: 0xd8c9a3, roughness: 0.7 }));
     counter.position.set(STORE.width / 2, 0.55, STORE.depth - 3.2);
     this.scene.add(counter);
-    const register = new THREE.Mesh(new THREE.BoxGeometry(2, 0.7, 1.4), new THREE.MeshStandardMaterial({ color: 0x3a3f52, roughness: 0.5 }));
+    const register = new THREE.Mesh(new THREE.BoxGeometry(2, 0.7, 1.4), new THREE.MeshStandardMaterial({ color: 0x6d8f6f, roughness: 0.5 }));
     register.position.set(STORE.width / 2 - 2.5, 1.35, STORE.depth - 3.2);
     this.scene.add(register);
 
@@ -136,10 +135,10 @@ export class StoreEngine {
   }
 
   _buildLights() {
-    const hemi = new THREE.HemisphereLight(0xbfd4ff, 0x10141c, 0.55);
+    const hemi = new THREE.HemisphereLight(0xd9eeff, 0xe8e2d0, 1.1);
     this.scene.add(hemi);
 
-    const warm = new THREE.PointLight(0xffb454, 18, 30);
+    const warm = new THREE.PointLight(0xfff3c4, 20, 30);
     warm.position.set(STORE.width / 2, 5.2, STORE.depth - 3.5);
     this.scene.add(warm);
 
@@ -181,7 +180,7 @@ export class StoreEngine {
     // entrance banner
     const banner = new THREE.Mesh(
       new THREE.PlaneGeometry(20, 3),
-      new THREE.MeshBasicMaterial({ color: 0x101624 })
+      new THREE.MeshBasicMaterial({ color: 0x58b368 })
     );
     banner.position.set(STORE.width / 2, 4.4, STORE.depth + 0.05);
     banner.rotation.y = Math.PI;
@@ -191,8 +190,8 @@ export class StoreEngine {
   _buildShelfRun(aisleNum, z, products) {
     const group = new THREE.Group();
     const shelfMeta = {
-      frame: new THREE.MeshStandardMaterial({ color: 0x39415a, roughness: 0.75, metalness: 0.15 }),
-      board: new THREE.MeshStandardMaterial({ color: 0x4a5570, roughness: 0.7 })
+      frame: new THREE.MeshStandardMaterial({ color: 0xa8b9a2, roughness: 0.75, metalness: 0.08 }),
+      board: new THREE.MeshStandardMaterial({ color: 0xcfe0c8, roughness: 0.7 })
     };
 
     const LEN = 6.4;
@@ -246,7 +245,7 @@ export class StoreEngine {
 
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(0.82, 0.58, 0.44),
-      new THREE.MeshStandardMaterial({ color, roughness: 0.55 })
+      new THREE.MeshStandardMaterial({ color: new THREE.Color(p.color || '#E8DCC8'), roughness: 0.5 })
     );
     box.position.y = 0.29;
     g.add(box);
@@ -283,9 +282,9 @@ export class StoreEngine {
     ctx.textBaseline = 'middle';
     ctx.font = '64px serif';
     ctx.fillText(emoji, 128, 46);
-    ctx.font = '700 20px system-ui, sans-serif';
+    ctx.font = '700 22px system-ui, sans-serif';
     ctx.fillStyle = '#0d1117';
-    ctx.fillText(`$${Number(price).toFixed(2)}`, 128, 88);
+    ctx.fillText(`₹${Number(price).toLocaleString('en-IN')}`, 128, 88);
     ctx.font = '600 16px system-ui, sans-serif';
     ctx.fillText(name.slice(0, 14), 128, 108);
     const tex = new THREE.CanvasTexture(c);
@@ -304,7 +303,7 @@ export class StoreEngine {
       pos[i * 3 + 2] = Math.random() * STORE.depth;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const mat = new THREE.PointsMaterial({ color: 0xffd9a0, size: 0.06, transparent: true, opacity: 0.5 });
+    const mat = new THREE.PointsMaterial({ color: 0x2e8b57, size: 0.06, transparent: true, opacity: 0.4 });
     this.dust = new THREE.Points(geo, mat);
     this.scene.add(this.dust);
   }
@@ -469,18 +468,18 @@ export class StoreEngine {
     ctx.clearRect(0, 0, w, h);
     const sx = w / STORE.width;
     const sz = h / STORE.depth;
-    ctx.fillStyle = 'rgba(12,15,22,0.85)';
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.strokeStyle = 'rgba(46,139,87,0.5)';
     ctx.strokeRect(0, 0, w, h);
     for (let a = 1; a <= 8; a++) {
       const z = zOfAisle(a) * sz;
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.fillStyle = 'rgba(46,139,87,0.6)';
       ctx.fillRect(0, z - 1, w, 2);
     }
     const px = this.camera.position.x * sx;
     const pz = this.camera.position.z * sz;
-    ctx.fillStyle = '#ffb454';
+    ctx.fillStyle = '#ff8c42';
     ctx.beginPath();
     ctx.arc(px, pz, 3.4, 0, Math.PI * 2);
     ctx.fill();
