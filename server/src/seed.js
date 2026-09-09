@@ -5,12 +5,12 @@ const catalog = require('./catalog');
 
 connect();
 
-const adminEmail = process.env.ADMIN_EMAIL || 'admin@argo.shop';
+const adminEmail = process.env.ADMIN_EMAIL || 'admin@freshbasket.shop';
 const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
 
 if (countUsers() === 0) {
   const hash = bcrypt.hashSync(adminPassword, 10);
-  createUser({ name: 'Argo Admin', email: adminEmail, passwordHash: hash, role: 'admin' });
+  createUser({ name: 'FreshBasket Admin', email: adminEmail, passwordHash: hash, role: 'admin' });
   console.log(`[seed] created admin user ${adminEmail} / ${adminPassword}`);
 } else {
   console.log('[seed] users table not empty, skipped');

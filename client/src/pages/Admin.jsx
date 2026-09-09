@@ -46,7 +46,7 @@ export default function Admin() {
   }, [isAdmin, tab, notify]);
 
   const openNew = () => {
-    setForm({ ...EMPTY, sku: `ARG-${String(products.length + 1).padStart(3, '0')}` });
+    setForm({ ...EMPTY, sku: `FB-${String(products.length + 1).padStart(3, '0')}` });
     setModal('new');
   };
 

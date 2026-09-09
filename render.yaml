@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: argo-supermarket-api
+    name: freshbasket-supermarket-api
     runtime: node
     plan: free
     rootDir: server
@@ -10,10 +10,10 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_EMAIL
-        value: admin@argo.shop
+        value: admin@freshbasket.shop
       - key: ADMIN_PASSWORD
         value: admin123
       - key: DATABASE_PATH
-        value: /tmp/argo-data.db
+        value: /tmp/freshbasket-data.db
       - key: STRIPE_SECRET_KEY
         sync: false

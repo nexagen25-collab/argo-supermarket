@@ -24,7 +24,7 @@ app.use(
 );
 app.use(express.json({ limit: '2mb' }));
 
-app.use('/api/health', (_req, res) => res.json({ ok: true, name: 'argo-api', time: Date.now() }));
+app.use('/api/health', (_req, res) => res.json({ ok: true, name: 'freshbasket-api', time: Date.now() }));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
@@ -37,4 +37,4 @@ app.get(/^(?!\/api).*/, (_req, res) => res.sendFile(path.join(clientDist, 'index
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`[argo] API listening on :${PORT}`));
+app.listen(PORT, () => console.log(`[freshbasket] API listening on :${PORT}`));

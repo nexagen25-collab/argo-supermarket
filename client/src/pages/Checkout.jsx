@@ -17,7 +17,7 @@ export default function Checkout() {
   useEffect(() => {
     const saved = sessionStorage.getItem('argo_addr');
     if (saved) setAddress(saved);
-    if (user && !saved) setAddress('1 Argo Way, Freshwater City');
+    if (user && !saved) setAddress('1 FreshBasket Way, Freshwater City');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 

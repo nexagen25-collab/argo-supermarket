@@ -33,7 +33,7 @@ router.post('/', requireAuth, (req, res, next) => {
       total += product.price * it.qty;
       return { id: product.id, sku: product.sku, name: product.name, price: product.price, qty: it.qty };
     });
-    const number = `ARGO-${nanoid(8).toUpperCase()}`;
+    const number = `FB-${nanoid(8).toUpperCase()}`;
     const order = createOrder({
       userId: req.user.id,
       number,

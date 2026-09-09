@@ -1,4 +1,4 @@
-# Argo — a walkable 3D supermarket
+# FreshBasket — a walkable 3D supermarket
 
 A fully developed supermarket platform with an immersive 3D store, product catalog, cart, checkout, payments, user accounts, order tracking, and an admin console.
 
@@ -7,7 +7,7 @@ A fully developed supermarket platform with an immersive 3D store, product catal
 - **Frontend** — React 18 + Vite + Three.js (`client/`)
 - **Backend** — Node.js + Express + SQLite (`server/`)
 - **Payments** — Stripe (test mode) with a built-in mock fallback
-- **Auth** — JWT + bcrypt (`admin@argo.shop` / `admin123` seeded)
+- **Auth** — JWT + bcrypt (`admin@freshbasket.shop` / `admin123` seeded)
 
 ## Local development
 
@@ -28,7 +28,7 @@ Open http://localhost:5173
 
 - Catalog + cart + checkout: `#/products`
 - Walkable 3D store: `#/store`
-- Admin console: sign in with `admin@argo.shop` / `admin123`, then `#/admin`
+- Admin console: sign in with `admin@freshbasket.shop` / `admin123`, then `#/admin`
 
 ## Features
 
@@ -67,14 +67,14 @@ Client build env:
 1. Push this repo to GitHub.
 2. In Render dashboard choose **New → Blueprint**, point at the repo and select `render.yaml`.
 3. Add a `STRIPE_SECRET_KEY` (test key) in the service env vars if you want real test payments.
-4. Your API is live at `https://argo-supermarket-api.onrender.com`.
+4. Your API is live at `https://freshbasket-supermarket-api.onrender.com`.
 
 > Render's free tier uses an ephemeral disk — restarting the service resets the SQLite file. For persistent data, add the Render **Persistent Disk** add-on and point `DATABASE_PATH` into it.
 
 ### Frontend → Vercel
 
 1. Deploy the `client/` folder as a Vite project (or use `vercel.json` already included).
-2. Set `VITE_API_URL` to your Render URL: `https://argo-supermarket-api.onrender.com`
+2. Set `VITE_API_URL` to your Render URL: `https://freshbasket-supermarket-api.onrender.com`
 3. Rebuild + deploy. The cart, catalog, checkout and 3D store all call the API.
 
 ### Alternative: single-host deploy

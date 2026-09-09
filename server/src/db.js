@@ -87,8 +87,8 @@ function seedIfEmpty() {
   if (countUsers() === 0) {
     const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'admin123', 10);
     createUser({
-      name: 'Argo Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@argo.shop',
+      name: 'FreshBasket Admin',
+      email: process.env.ADMIN_EMAIL || 'admin@freshbasket.shop',
       passwordHash: hash,
       role: 'admin'
     });

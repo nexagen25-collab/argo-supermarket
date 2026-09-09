@@ -27,7 +27,7 @@ export default function Register() {
     <main className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
         <h1>Create account</h1>
-        <p className="sub">Join Argo and keep your orders in one place.</p>
+        <p className="sub">Join FreshBasket and keep your orders in one place.</p>
         {error && <div className="error-box">{error}</div>}
         <div className="field">
           <label htmlFor="name">Full name</label>

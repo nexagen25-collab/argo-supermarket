@@ -1,7 +1,7 @@
 {
-  "name": "argo-supermarket-api",
+  "name": "freshbasket-supermarket-api",
   "version": "1.0.0",
-  "description": "Backend API for the Argo walkable 3D supermarket",
+  "description": "Backend API for the FreshBasket walkable 3D supermarket",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

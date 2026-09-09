@@ -7,10 +7,10 @@ export default function Home() {
 
   return (
     <main>
-      <section className="hero" aria-label="Argo walkable supermarket">
+      <section className="hero" aria-label="FreshBasket walkable supermarket">
         <div className="dust" aria-hidden="true" />
         <div className="hero-inner">
-          <p className="hero-eyebrow">Argo Supermarket</p>
+          <p className="hero-eyebrow">FreshBasket Supermarket</p>
           <h1>
             Walk the aisles.
             <br />
@@ -42,9 +42,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" aria-label="Why Argo">
+      <section className="section" aria-label="Why FreshBasket">
         <div className="section-head">
-          <span className="kicker">Why Argo</span>
+          <span className="kicker">Why FreshBasket</span>
           <h2>Not your average store</h2>
           <span className="rule" />
         </div>

@@ -44,10 +44,10 @@ const base = {
 };
 
 const catalog = Object.entries(base).map(([skuNum, p]) => ({
-  sku: `ARG-${String(skuNum).padStart(3, '0')}`,
+  sku: `FB-${String(skuNum).padStart(3, '0')}`,
   name: p.name,
   category: p.category,
-  description: `${p.name} — freshly stocked on the ${p.aisle}${suffix(p.aisle)} floor aisle. Picked and packed daily by the Argo crew.`,
+  description: `${p.name} — freshly stocked on the ${p.aisle}${suffix(p.aisle)} floor aisle. Picked and packed daily by the FreshBasket crew.`,
   price: p.price,
   unit: p.unit,
   stock: 40 + (skuNum * 7) % 80,

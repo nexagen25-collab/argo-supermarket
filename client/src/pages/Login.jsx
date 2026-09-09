@@ -26,7 +26,7 @@ export default function Login() {
     <main className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
         <h1>Welcome back</h1>
-        <p className="sub">Sign in to Argo to track orders.</p>
+        <p className="sub">Sign in to FreshBasket to track orders.</p>
         {error && <div className="error-box">{error}</div>}
         <div className="field">
           <label htmlFor="email">Email</label>
@@ -42,7 +42,7 @@ export default function Login() {
         <p className="auth-alt">
           New here? <a href="#/register">Create an account</a>
         </p>
-        <p className="shipping-note">Demo admin: admin@argo.shop / admin123</p>
+        <p className="shipping-note">Demo admin: admin@freshbasket.shop / admin123</p>
       </form>
     </main>
   );

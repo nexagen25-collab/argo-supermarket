@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
 
-const SECRET = process.env.JWT_SECRET || 'argo-dev-secret-change-me';
+const SECRET = process.env.JWT_SECRET || 'freshbasket-dev-secret-change-me';
 
 function sign(user) {
   return jwt.sign({ id: user.id, role: user.role }, SECRET, { expiresIn: '7d' });
