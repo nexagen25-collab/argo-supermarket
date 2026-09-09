@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <header className="nav" role="banner">
       <a className="brand" href="#/">
-        <span className="mark" aria-hidden="true">🛒</span>
+        <img className="mark" src="/logo.jpeg" alt="Argo logo" width="32" height="32" style={{ objectFit: 'cover', borderRadius: 10 }} />
         <span>
           Argo
           <small>walkable supermarket</small>
