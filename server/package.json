@@ -2,6 +2,9 @@
   "name": "freshbasket-supermarket-api",
   "version": "1.0.0",
   "description": "Backend API for the FreshBasket walkable 3D supermarket",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

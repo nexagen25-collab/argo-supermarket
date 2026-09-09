@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm --prefix ../client install && npm --prefix ../client run build",
+  "installCommand": "npm install",
+  "framework": null,
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 10
+    }
+  },
+  "env": {
+    "DATABASE_PATH": "/tmp/freshbasket-data.db",
+    "ADMIN_EMAIL": "admin@freshbasket.shop",
+    "ADMIN_PASSWORD": "admin123"
+  }
+}
