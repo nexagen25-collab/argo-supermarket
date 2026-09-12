@@ -7,7 +7,9 @@ let db;
 
 function connect() {
   if (db) return db;
-  const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '..', 'data.db');
+  const dbPath =
+    process.env.DATABASE_PATH ||
+    (process.env.VERCEL ? '/tmp/freshbasket-data.db' : path.join(__dirname, '..', 'data.db'));
   db = new DatabaseSync(dbPath);
 
   db.exec(`

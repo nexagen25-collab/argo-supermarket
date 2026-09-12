@@ -7,3 +7,4 @@ server/data.db-wal
 server/data.db-shm
 .vite/
 .DS_Store
+.vercel

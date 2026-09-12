@@ -28,7 +28,7 @@ export default function Store3D() {
       <canvas ref={canvasRef} className="store-canvas" aria-label="Walkable 3D supermarket" role="img" />
 
       <div className="store-hud store-topbar">
-        <span className="pill on">3D STORE</span>
+        <span className="pill on">3D STORE · LIVING GREEN</span>
         <span className="pill">WASD walk · drag to look · click to grab</span>
       </div>
 

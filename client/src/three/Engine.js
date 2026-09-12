@@ -31,7 +31,8 @@ export class StoreEngine {
     this._buildStore();
     this._buildLights();
     this._buildAisles();
-    this._buildDust();
+    this._buildSpores();
+    this._buildLiving();
     this._bindEvents();
 
     this._clock = new THREE.Clock();
@@ -55,15 +56,15 @@ export class StoreEngine {
 
   _buildScene() {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xf3f1ea);
-    this.scene.fog = new THREE.Fog(0xf3f1ea, 26, 130);
+    this.scene.background = new THREE.Color(0x0a1f14);
+    this.scene.fog = new THREE.Fog(0x0a1f14, 15, 100);
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 200);
     this.camera.position.set(STORE.width * 0.5, 2.2, STORE.depth * 0.9);
     this.yaw = Math.PI; // face into the store
 
     this.sky = new THREE.Mesh(
       new THREE.PlaneGeometry(STORE.width * 2, STORE.depth * 2),
-      new THREE.MeshBasicMaterial({ color: 0xbcd9e8, fog: false })
+      new THREE.MeshBasicMaterial({ color: 0x1d6b3f, fog: false })
     );
     this.sky.position.set(STORE.width / 2, STORE.height * 4.2, STORE.depth / 2);
     this.sky.rotation.x = Math.PI / 2;
@@ -71,12 +72,12 @@ export class StoreEngine {
   }
 
   _buildStore() {
-    const matWall = new THREE.MeshStandardMaterial({ color: 0xe9e5da, roughness: 0.92 });
-    const matCeil = new THREE.MeshStandardMaterial({ color: 0xf7f5ee, roughness: 0.95 });
+    const matWall = new THREE.MeshStandardMaterial({ color: 0x1f3d2a, roughness: 0.9 });
+    const matCeil = new THREE.MeshStandardMaterial({ color: 0x123022, roughness: 0.95 });
     const matFloor = new THREE.MeshStandardMaterial({
-      color: 0xd9c9a7,
-      roughness: 0.86,
-      metalness: 0.04
+      color: 0x2f5d36,
+      roughness: 0.9,
+      metalness: 0.02
     });
 
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(STORE.width, STORE.depth), matFloor);
@@ -111,7 +112,7 @@ export class StoreEngine {
     this.scene.add(east);
 
     // Aisle "parking" lines on the floor
-    const lineMat = new THREE.MeshBasicMaterial({ color: 0xfaf7f0 });
+    const lineMat = new THREE.MeshBasicMaterial({ color: 0x7fae79 });
     for (let a = 1; a <= 8; a++) {
       const z = zOfAisle(a);
       const lane = new THREE.Mesh(new THREE.PlaneGeometry(STORE.width - 2, 0.14), lineMat);
@@ -121,10 +122,10 @@ export class StoreEngine {
     }
 
     // checkout counter near the front (south)
-    const counter = new THREE.Mesh(new THREE.BoxGeometry(14, 1.1, 2.2), new THREE.MeshStandardMaterial({ color: 0xd8c9a3, roughness: 0.7 }));
+    const counter = new THREE.Mesh(new THREE.BoxGeometry(14, 1.1, 2.2), new THREE.MeshStandardMaterial({ color: 0x31523a, roughness: 0.8 }));
     counter.position.set(STORE.width / 2, 0.55, STORE.depth - 3.2);
     this.scene.add(counter);
-    const register = new THREE.Mesh(new THREE.BoxGeometry(2, 0.7, 1.4), new THREE.MeshStandardMaterial({ color: 0x6d8f6f, roughness: 0.5 }));
+    const register = new THREE.Mesh(new THREE.BoxGeometry(2, 0.7, 1.4), new THREE.MeshStandardMaterial({ color: 0x4e7d4e, roughness: 0.5 }));
     register.position.set(STORE.width / 2 - 2.5, 1.35, STORE.depth - 3.2);
     this.scene.add(register);
 
@@ -135,21 +136,25 @@ export class StoreEngine {
   }
 
   _buildLights() {
-    const hemi = new THREE.HemisphereLight(0xd9eeff, 0xe8e2d0, 1.1);
+    const hemi = new THREE.HemisphereLight(0x8ff0b8, 0x14341f, 1.35);
     this.scene.add(hemi);
 
-    const warm = new THREE.PointLight(0xfff3c4, 20, 30);
+    const canopy = new THREE.PointLight(0x74e887, 15, 30);
+    canopy.position.set(STORE.width / 2, 5, STORE.depth / 2);
+    this.scene.add(canopy);
+
+    const warm = new THREE.PointLight(0xffe0a3, 22, 32);
     warm.position.set(STORE.width / 2, 5.2, STORE.depth - 3.5);
     this.scene.add(warm);
 
-    // fluorescent strip lights down the aisles
-    const stripMat = new THREE.MeshBasicMaterial({ color: 0xeaf4ff });
+    // luminous canopy strips down the aisles
+    const stripMat = new THREE.MeshBasicMaterial({ color: 0xdfffe8 });
     for (let a = 1; a <= 8; a += 2) {
       const z = zOfAisle(a);
       const strip = new THREE.Mesh(new THREE.PlaneGeometry(STORE.width - 6, 0.5), stripMat);
       strip.position.set(STORE.width / 2, STORE.height - 0.12, z);
       this.scene.add(strip);
-      const light = new THREE.PointLight(0xfff3d6, 26, 26);
+      const light = new THREE.PointLight(0xd9f7e2, 22, 26);
       light.position.set(STORE.width / 2, STORE.height - 0.8, z);
       this.scene.add(light);
     }
@@ -180,10 +185,11 @@ export class StoreEngine {
     // entrance banner
     const banner = new THREE.Mesh(
       new THREE.PlaneGeometry(20, 3),
-      new THREE.MeshBasicMaterial({ color: 0x58b368 })
+      new THREE.MeshStandardMaterial({ color: 0x58b368, emissive: 0x0f7a3c, emissiveIntensity: 0.35 })
     );
     banner.position.set(STORE.width / 2, 4.4, STORE.depth + 0.05);
     banner.rotation.y = Math.PI;
+    this.banner = banner;
     this.scene.add(banner);
   }
 
@@ -293,19 +299,100 @@ export class StoreEngine {
     return tex;
   }
 
-  _buildDust() {
-    const count = 700;
+  _makeGlowTexture() {
+    const c = document.createElement('canvas');
+    c.width = 64;
+    c.height = 64;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.35, 'rgba(255,255,255,0.6)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 64, 64);
+    const tex = new THREE.CanvasTexture(c);
+    return tex;
+  }
+
+  _buildSpores() {
+    const count = 380;
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(count * 3);
+    this.sporeSeeds = new Float32Array(count);
+    this.sporeSpeeds = new Float32Array(count);
     for (let i = 0; i < count; i++) {
       pos[i * 3] = Math.random() * STORE.width;
-      pos[i * 3 + 1] = Math.random() * STORE.height;
+      pos[i * 3 + 1] = Math.random() * (STORE.height + 2);
       pos[i * 3 + 2] = Math.random() * STORE.depth;
+      this.sporeSeeds[i] = Math.random() * Math.PI * 2;
+      this.sporeSpeeds[i] = 0.25 + Math.random() * 0.5;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const mat = new THREE.PointsMaterial({ color: 0x2e8b57, size: 0.06, transparent: true, opacity: 0.4 });
-    this.dust = new THREE.Points(geo, mat);
-    this.scene.add(this.dust);
+    const mat = new THREE.PointsMaterial({
+      map: this._makeGlowTexture(),
+      color: 0x9fe8a8,
+      size: 0.45,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    this.spores = new THREE.Points(geo, mat);
+    this.sporeMat = mat;
+    this.scene.add(this.spores);
+  }
+
+  _buildLiving() {
+    this.living = [];
+
+    const tuft = (x, z, s, hue) => {
+      const g = new THREE.Group();
+      const mat = new THREE.MeshStandardMaterial({ color: hue, roughness: 0.85, side: THREE.DoubleSide });
+      for (let i = 0; i < 3; i++) {
+        const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.55 * s, 1.15 * s), mat);
+        leaf.rotation.y = (i / 3) * Math.PI;
+        leaf.rotation.z = (Math.random() - 0.5) * 0.25;
+        leaf.position.y = 0.45 * s;
+        g.add(leaf);
+      }
+      g.position.set(x, 0, z);
+      this.scene.add(g);
+      this.living.push({ mesh: g, seed: Math.random() * Math.PI * 2, speed: 1.2 + Math.random() * 0.9, axis: 'z', amp: 0.06 });
+    };
+
+    // undergrowth along the north wall, corners, and side walls
+    for (let x = 1.5; x < STORE.width; x += 5) tuft(x, -0.1, 1, 0x2e7d32);
+    tuft(1.2, STORE.depth - 1.5, 1.2, 0x388e3c);
+    tuft(STORE.width - 1.2, STORE.depth - 1.5, 1.2, 0x43a047);
+    for (let z = 6; z < STORE.depth; z += 8) tuft(-0.1, z, 1, 0x2e7d32);
+    for (let z = 6; z < STORE.depth; z += 8) tuft(STORE.width + 0.1, z, 1, 0x2e7d32);
+
+    const vine = (x, z) => {
+      const g = new THREE.Group();
+      const mat = new THREE.MeshStandardMaterial({ color: 0x1b5e20, roughness: 0.8 });
+      for (let i = 0; i < 5; i++) {
+        const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.08, 6, 5), mat);
+        leaf.position.set(Math.sin(i * 1.7) * 0.06, -(0.12 + i * 0.22), Math.cos(i * 1.3) * 0.06);
+        g.add(leaf);
+      }
+      g.position.set(x, STORE.height - 0.3, z);
+      this.scene.add(g);
+      this.living.push({ mesh: g, seed: Math.random() * Math.PI * 2, speed: 0.9 + Math.random() * 0.6, axis: 'x', amp: 0.045 });
+    };
+    for (let x = 1.5; x < STORE.width; x += 6.5) vine(x, 1.6);
+    vine(STORE.width - 3, STORE.depth - 2.2);
+
+    // glowing canopy orbs
+    const orbCols = [0x58e07f, 0xe8f7a0, 0x7ce8a0, 0xb6f0c8, 0x9ae86a, 0x6fe89c];
+    this.canopyOrbs = [];
+    for (let i = 0; i < 6; i++) {
+      const col = orbCols[i % orbCols.length];
+      const m = new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.5, roughness: 0.4 });
+      const o = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 10), m);
+      o.position.set(((i + 1) * STORE.width) / 7, STORE.height - 0.55, 3 + (i % 3) * 9);
+      this.scene.add(o);
+      this.canopyOrbs.push(o);
+    }
   }
 
   /* ---------------- input ---------------- */
@@ -444,16 +531,47 @@ export class StoreEngine {
     this.camera.rotation.y = this.yaw;
     this.camera.rotation.x = this.pitch;
 
-    // gentle dust drift
     const time = this._clock.elapsedTime;
-    if (this.dust) {
-      const pos = this.dust.geometry.attributes.position;
+
+    // living spores drift upward and sway
+    if (this.spores) {
+      const pos = this.spores.geometry.attributes.position;
+      const arr = pos.array;
       for (let i = 0; i < pos.count; i++) {
-        pos.array[i * 3 + 1] += Math.sin(time * 0.5 + i) * 0.001;
-        pos.array[i * 3] += Math.sin(time * 0.3 + i * 0.7) * 0.0016;
+        arr[i * 3 + 1] += this.sporeSpeeds[i] * dt;
+        arr[i * 3] += Math.sin(time * 0.4 + this.sporeSeeds[i]) * dt * 0.12;
+        arr[i * 3 + 2] += Math.cos(time * 0.35 + this.sporeSeeds[i]) * dt * 0.12;
+        if (arr[i * 3 + 1] > 9) {
+          arr[i * 3 + 1] = 0.05;
+          arr[i * 3] = Math.random() * STORE.width;
+          arr[i * 3 + 2] = Math.random() * STORE.depth;
+        }
       }
       pos.needsUpdate = true;
+      this.sporeMat.opacity = 0.7 + Math.sin(time * 0.8) * 0.15;
     }
+
+    // undergrowth and vines sway
+    if (this.living) {
+      for (const l of this.living) {
+        l.mesh.rotation[l.axis] = Math.sin(time * l.speed + l.seed) * l.amp;
+      }
+    }
+
+    // canopy orbs pulse
+    if (this.canopyOrbs) {
+      for (let i = 0; i < this.canopyOrbs.length; i++) {
+        this.canopyOrbs[i].material.emissiveIntensity = 0.45 + 0.35 * (0.5 + 0.5 * Math.sin(time * 1.1 + i));
+      }
+    }
+
+    // banner breathes
+    if (this.banner) {
+      this.banner.material.emissiveIntensity = 0.35 + 0.15 * Math.sin(time * 1.2);
+    }
+
+    // gentle living-world camera drift
+    this.camera.position.y = 2.2 + Math.sin(time * 1.5) * 0.02;
 
     this.renderer.render(this.scene, this.camera);
     this._drawMinimap();
@@ -468,18 +586,18 @@ export class StoreEngine {
     ctx.clearRect(0, 0, w, h);
     const sx = w / STORE.width;
     const sz = h / STORE.depth;
-    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillStyle = 'rgba(12,30,20,0.72)';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = 'rgba(46,139,87,0.5)';
+    ctx.strokeStyle = 'rgba(126,236,156,0.6)';
     ctx.strokeRect(0, 0, w, h);
     for (let a = 1; a <= 8; a++) {
       const z = zOfAisle(a) * sz;
-      ctx.fillStyle = 'rgba(46,139,87,0.6)';
+      ctx.fillStyle = 'rgba(126,236,156,0.55)';
       ctx.fillRect(0, z - 1, w, 2);
     }
     const px = this.camera.position.x * sx;
     const pz = this.camera.position.z * sz;
-    ctx.fillStyle = '#ff8c42';
+    ctx.fillStyle = '#ffd28a';
     ctx.beginPath();
     ctx.arc(px, pz, 3.4, 0, Math.PI * 2);
     ctx.fill();
