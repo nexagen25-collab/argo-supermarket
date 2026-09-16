@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { nanoid } = require('nanoid');
+const crypto = require('crypto');
 const { z } = require('zod');
 const {
   createOrder,
@@ -33,7 +33,7 @@ router.post('/', requireAuth, (req, res, next) => {
       total += product.price * it.qty;
       return { id: product.id, sku: product.sku, name: product.name, price: product.price, qty: it.qty };
     });
-    const number = `FB-${nanoid(8).toUpperCase()}`;
+    const number = `FB-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
     const order = createOrder({
       userId: req.user.id,
       number,
