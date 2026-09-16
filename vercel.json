@@ -1,11 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "node",
-  "buildCommand": "npm run build",
+  "buildCommand": "echo Prebuilt client committed to repo; ls client/dist",
   "outputDirectory": "client/dist",
   "functions": {
     "api/index.js": {
-      "runtime": "nodejs24.x",
       "maxDuration": 10
     }
   }
