@@ -26,6 +26,7 @@ export default function Register() {
   return (
     <main className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
+        <img className="auth-logo" src="/logo.jpeg" alt="FreshBasket logo" width="60" height="60" />
         <h1>Create account</h1>
         <p className="sub">Join FreshBasket and keep your orders in one place.</p>
         {error && <div className="error-box">{error}</div>}

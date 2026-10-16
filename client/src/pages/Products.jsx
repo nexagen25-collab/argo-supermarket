@@ -1,11 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../state/StoreContext';
-import { inr } from '../format';
+import ProductCard from '../components/ProductCard';
+
+function paramsFromHash() {
+  const hash = window.location.hash.replace(/^#/, '') || '/';
+  const parts = hash.split('?');
+  return new URLSearchParams(parts[1] || '');
+}
 
 export default function Products() {
-  const { products, addToCart } = useStore();
-  const [cat, setCat] = useState('All');
-  const [q, setQ] = useState('');
+  const { products } = useStore();
+  const [cat, setCat] = useState(() => paramsFromHash().get('cat') || 'All');
+  const [q, setQ] = useState(() => paramsFromHash().get('q') || '');
+
+  useEffect(() => {
+    const onHash = () => {
+      const params = paramsFromHash();
+      setQ(params.get('q') || '');
+      setCat(params.get('cat') || 'All');
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
 
   const categories = useMemo(() => ['All', ...new Set(products.map((p) => p.category))], [products]);
 
@@ -21,7 +37,7 @@ export default function Products() {
     <main className="section">
       <div className="section-head">
         <span className="kicker">Catalog</span>
-        <h2>All products</h2>
+        <h2>{cat === 'All' ? 'All products' : cat}</h2>
         <span className="rule" />
       </div>
 
@@ -33,38 +49,29 @@ export default function Products() {
         ))}
       </div>
 
-      <div style={{ marginBottom: 22 }}>
+      <div className="search-big">
+        <span className="mag" aria-hidden="true">🔍</span>
         <input
           type="search"
-          placeholder="Search the shelves…"
+          placeholder="Search for groceries, brands and items"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           aria-label="Search products"
         />
       </div>
 
+      <p className="results-note">
+        {list.length} {list.length === 1 ? 'item' : 'items'}
+        {cat !== 'All' ? ` in ${cat}` : ''}
+        {q.trim() ? ` matching “${q.trim()}”` : ''}
+      </p>
+
       <div className="grid">
-        {list.map((p) => (
-          <article className="card" key={p.id}>
-            <div className="card-thumb" style={{ background: `linear-gradient(135deg, ${p.color}2e, ${p.color}14)` }}>
-              <span className="tag">{p.category}</span>
-              <span aria-hidden="true">{p.emoji}</span>
-            </div>
-            <div className="card-body">
-              <div className="meta">Aisle {p.aisle} · Shelf {p.shelf} · {p.stock} in stock</div>
-              <h3>{p.name}</h3>
-              <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.5, margin: '4px 0 0' }}>{p.description}</p>
-              <div className="card-foot">
-                <span className="price">{inr(p.price)} <small>/{p.unit}</small></span>
-                <button className="add-btn" onClick={() => addToCart(p)} disabled={p.stock <= 0}>
-                  {p.stock <= 0 ? 'Sold out' : 'Add +'}
-                </button>
-              </div>
-            </div>
-          </article>
-        ))}
-        {list.length === 0 && <p style={{ color: 'var(--muted)' }}>No products match that search.</p>}
+        {list.map((p) => <ProductCard key={p.id} p={p} showDesc />)}
       </div>
+      {list.length === 0 && (
+        <p style={{ color: 'var(--muted)' }}>No products match that search.</p>
+      )}
     </main>
   );
 }

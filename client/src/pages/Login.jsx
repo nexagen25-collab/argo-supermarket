@@ -25,6 +25,7 @@ export default function Login() {
   return (
     <main className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
+        <img className="auth-logo" src="/logo.jpeg" alt="FreshBasket logo" width="60" height="60" />
         <h1>Welcome back</h1>
         <p className="sub">Sign in to FreshBasket to track orders.</p>
         {error && <div className="error-box">{error}</div>}
